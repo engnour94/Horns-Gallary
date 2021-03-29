@@ -1,0 +1,14 @@
+  
+*{box-sizing: border-box;}
+@import url('https://fonts.googleapis.com/css2?family=Teko&display=swap');
+body{
+width: 960px;
+margin: auto;
+height: 100vh;
+display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+    font-family: 'Teko', sans-serif;
+
+}

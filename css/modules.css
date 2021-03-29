@@ -1,0 +1,30 @@
+#photo-template{
+    border: 1px solid pink;
+    border-radius: 20px;
+    box-shadow: 15px 15px  rgba(171, 109, 187, 0.3);
+    background-color: white;
+    
+    }
+
+    h2, header, footer{
+        text-align: center;
+    }
+    p{text-align: center;}
+
+    footer , h1{
+width: 100%;
+height: 100px;
+background-color: rosybrown;
+line-height: 100px;
+    }
+    
+    body{
+        background-color: silver;
+    }
+
+    select{
+        width: 200px;
+        height: 50px;
+    }
+
+    

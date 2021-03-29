@@ -1,0 +1,31 @@
+img{
+
+    width: 180px;
+    height: 220px;
+    border-radius: 10px;
+}
+
+div#photo-template{
+margin:20px 5px ;
+    height: 400px;
+    width: 30%;
+
+
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+
+}
+main{
+    width: 960px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        align-content: center;
+    
+}

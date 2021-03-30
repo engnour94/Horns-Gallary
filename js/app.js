@@ -1,15 +1,6 @@
 
+'use strict';
 
-function Horn( data ) {
-  this.image_url = data.image_url;
-  this.title = data.title;
-  this.description = data.description;
-  this.keyword = data.keyword;
-  this.horns = data.horns;
-  Horn.all.push( this );
-}
-
-Horn.all = [];
 
 $.ajax( './data/page-1.json' )
   .then( hornsData => {
@@ -25,7 +16,16 @@ $.ajax( './data/page-1.json' )
   } );
 //  .then( () => selectOption() );
 
+function Horn( data ) {
+  this.image_url = data.image_url;
+  this.title = data.title;
+  this.description = data.description;
+  this.keyword = data.keyword;
+  this.horns = data.horns;
+  Horn.all.push( this );
+}
 
+Horn.all = [];
 Horn.prototype.render=function () {
 
   let photoTemplate = $( '#photo-template' ).clone();
@@ -38,18 +38,27 @@ Horn.prototype.render=function () {
 
 
 };
-
 function selectOption() {
-  let shown = {};
-  let select = $( 'select' );
-  Horn.all.forEach( ( horn ) => {
-    if ( ! shown[horn.keyword] ) {
-      let option = `<option value="${horn.keyword}">${horn.keyword}</option>`;
-      select.append( option );
-      shown[horn.keyword] = true;
+  let filteredKeyword =[];
+  Horn.all.forEach( val => {
+    if ( !filteredKeyword.includes( val.keyword ) ) {
+      filteredKeyword.push( val.keyword );
     }
+
   } );
+  filteredKeyword.forEach( val => {
+    let option = `<option value="${val}">${val}</option>`;
+    $('select').append( option );
+
+  } );
+
 }
+
+
+
+
+
+
 
 $( 'select' ).on( 'change', function() {
   let selected = $( this ).val();
@@ -57,3 +66,15 @@ $( 'select' ).on( 'change', function() {
   $( `.${selected}` ).show( );
   // $( `.${selected}` ).fadeIn( );
 } );
+
+// function selectOption() {
+//   let shown = {};
+//   let select = $( 'select' );
+//   Horn.all.forEach( ( horn ) => {
+//     if ( ! shown[horn.keyword] ) {
+//       let option = `<option value="${horn.keyword}">${horn.keyword}</option>`;
+//       select.append( option );
+//       shown[horn.keyword] = true;
+//     }
+//   } );
+// }

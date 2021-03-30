@@ -19,15 +19,14 @@ $.ajax( './data/page-1.json' )
       let newAnimal = new Horn( val );
       newAnimal.render();
     } );
+    selectOption();
     $( '#photo-template' ).first().remove();
 
-  } ) .then( () => selectOption() );
-
+  } );
+//  .then( () => selectOption() );
 
 
 Horn.prototype.render=function () {
-  let option=$( '<option></option>' ).text( this.keyword );
-  $( 'select' ).append( option );
 
   let photoTemplate = $( '#photo-template' ).clone();
   photoTemplate.addClass( this.keyword );
@@ -55,5 +54,6 @@ function selectOption() {
 $( 'select' ).on( 'change', function() {
   let selected = $( this ).val();
   $( 'div' ).hide();
-  $( `.${selected}` ).fadeIn( );
+  $( `.${selected}` ).show( );
+  // $( `.${selected}` ).fadeIn( );
 } );

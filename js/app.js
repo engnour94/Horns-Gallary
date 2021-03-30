@@ -1,107 +1,73 @@
 
-
 'use strict';
+let imageData = [];
 
-let page1=[];
-let page2=[];
-
-$.ajax( './data/page-1.json' )
-  .then( hornsData => {
-    console.log( hornsData );
-    hornsData.forEach( val=> {
-      console.log( val );
-      let newAnimal = new Horn( val );
-      page1.push( newAnimal );
-      newAnimal.render();
-
+function fetchData( page ) {
+  imageData = [];
+  $.ajax( page ).then( imgData => {
+    imgData.forEach( item => {
+      imageData.push( item );
     } );
-    selectOption();
-    sortAnimals ();
-    $( '#photo-template' ).first().remove();
+    console.log( imageData );
+    init();
+  } );
+}
+fetchData( './data/page-1.json' );
+
+function init() {
+  $( '.photo-template' ).remove();
+  $( '#keywordSelect option' ).remove();
+  imageData.forEach( img => {
+    // console.log(img);
+    let newImage = new Image( img );
+    newImage.renderName();
 
   } );
-//  .then( () => selectOption() );
-
-
-
-$.ajax( './data/page-2.json' )
-  .then( hornsData => {
-    console.log( hornsData );
-    hornsData.forEach( val=> {
-      console.log( val );
-      let newAnimal = new Horn( val );
-      page2.push(newAnimal);
-      newAnimal.render();
-
-    } );
-    selectOption();
-    sortAnimals ();
-    $( '#photo-template' ).first().remove();
-
-  } );
-//  .then( () => selectOption() );
-
-
-$( '#page1' ).on( 'click', function() {
-let selected = $(this).val();
-$(div).hide();
-$('')
-} );
-
-$( '#page2' ).on( 'click', function(){
-  $( 'section' ).removeData();
-  $( 'section' ).removeAttr();
-
-} );
-
-
-let animals = [];
-let titlesArr = [];
-let hornsArr =[];
-function Horn( data ) {
-  this.image_url = data.image_url;
-  this.title = data.title;
-  this.description = data.description;
-  this.keyword = data.keyword;
-  this.horns = data.horns;
-  Horn.all.push( this );
-  animals.push( this );
-  titlesArr.push( this.title );
-  hornsArr.push( this.horns );
-
 }
 
-Horn.all = [];
-Horn.prototype.render=function () {
+function Image( newImage ) {
+  this.imageName = newImage.title;
+  this.imageUrl = newImage.image_url;
+  this.imageDescription = newImage.description;
+  this.imageKeyword = newImage.keyword;
+  this.imageHorns = newImage.horns;
+  this.imageData = [];
+}
 
-  let template = $( '#hornTemplate' ).html();
-  let dataSet = Mustache.render( template,this );
-  $( 'main' ).append( dataSet );
-
-
-};
-function selectOption() {
-  let filteredKeyword =[];
-  Horn.all.forEach( val => {
-    if ( !filteredKeyword.includes( val.keyword ) ) {
-      filteredKeyword.push( val.keyword );
+function sortResults( prop, asc ) {
+  imageData.sort( function ( a, b ) {
+    if ( asc ) {
+      return ( a[prop] > b[prop] ) ? 1 : ( ( a[prop] < b[prop] ) ? -1 : 0 );
+    } else {
+      return ( b[prop] > a[prop] ) ? 1 : ( ( b[prop] < a[prop] ) ? -1 : 0 );
     }
-
   } );
-  filteredKeyword.forEach( val => {
-    let option = `<option value="${val}">${val}</option>`;
-    $( '.select' ).append( option );
-
-  } );
-
 }
 
+Image.prototype.renderName = function () {
+  let imageClone = $( '#photo-template' ).html();
+  let dataSet = Mustache.render( imageClone, this );
+  $( '#keywordSelect' ).append( `<option>${this.imageKeyword}</option>` );
+  $( 'main' ).append( dataSet );
+};
 
-$( '.select' ).on( 'change', function() {
-  let selected = $( this ).val();
-  $( 'div' ).hide();
-  $( `.${selected}` ).show( );
-  // $( `.${selected}` ).fadeIn( );
+//
+$( '#keywordSelect' ).on( 'change', ( event ) => {
+  let keyword = event.target.value;
+  $( '.photo-template' ).hide();
+  $( `.${keyword}` ).fadeIn();
 } );
 
-// selectOption();
+
+$( '#sortSelect' ).on( 'change', function () {
+  let selected = $( '#sortSelect' ).val();
+  sortResults( selected, 'asc' );
+  init();
+} );
+
+$( '.nav' ).on( 'click', function () {
+  let page = $( this ).val();
+  console.log( page );
+  fetchData( page );
+  init();
+} );

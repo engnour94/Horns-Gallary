@@ -1,4 +1,4 @@
-#photo-template{
+.photo-template{
     border: 1px solid pink;
     border-radius: 20px;
     box-shadow: 15px 15px  rgba(171, 109, 187, 0.3);

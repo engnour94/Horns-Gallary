@@ -5,7 +5,7 @@ img{
     border-radius: 10px;
 }
 
-div#photo-template{
+div.photo-template{
 margin:20px 5px ;
     height: 400px;
     width: 30%;
